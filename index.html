@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.sound.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="gg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css">
+    <meta charset="utf-8" />
+    
+    <h1>Recursion</h1>
+      <br>
+      <h2>Interactive Fractal Tree Drawing</h2>
+  </head>
+  
+  <body>
+ 
+
+    <div class="sketch">
+      <script src="sketch.js"></script>
+    </div>
+    
+    <p class="abc">
+      <img src="ah.PNG" alt="" height="500">
+      The blue arrows in the diagram illustrate the depth-first traversal and the recursive calls with alternating right and left rotations. The arrows represent the function calls, reductions in branch length, and overall branching structure described by the recursive algorithm.
+      <br><br>
+      <strong>Recursive Structure</strong>
+      <br>
+      The branch function draws a line and translates upwards by len.
+      <br>
+      If len is greater than 80, it performs the following steps:
+      <br>
+      1. Push the current transformation matrix onto the stack.
+      <br>
+      2. Rotate by ang and recursively call branch with len * 0.7.
+      <br>
+      3. Pop the transformation matrix off the stack.
+      <br>
+      4. Push the current transformation matrix again.
+      <br>
+      5. Rotate by -ang and recursively call branch with len * 0.7.
+      <br>
+      6. Pop the transformation matrix off the stack.
+      <br>
+      This structure creates a binary tree where each node has two children until len becomes 80 or less.
+      <br><br>
+      <div class="cde">
+          <ul>
+              Here’s a very simplified way to think about the branch function:
+              <li>Draw a line.</li>
+              <li>
+                  If the line is long enough:
+                  <ul>
+                      <li>
+                          Make a right branch:
+                          <ul>
+                              <li>Draw a smaller line.</li>
+                              <li>If this line is long enough, repeat the process for this line.</li>
+                          </ul>
+                      </li>
+                      <li>
+                          Make a left branch:
+                          <ul>
+                              <li>Draw a smaller line.</li>
+                              <li>If this line is long enough, repeat the process for this line.</li>
+                          </ul>
+                      </li>
+                  </ul>
+              </li>
+              <li>Stop if the line is too short.</li>
+          </ul>
+         <p>Try experimenting with this fractal tree code on the <a href="https://editor.p5js.org/" target="_blank">p5.js Web Editor</a>!</p> 
+         <br>
+         <p>
+          For more unordered projects: <a href="https://github.com/anoshkekal">github</a>
+         </p>
+        </div>
+  </p>
+  
+    <div class="code-container">
+      <div class="code-header">
+          <button class="copy-button" onclick="copyCode()">Copy</button>
+      </div>
+      <pre><code id="code-window" class="language-js">
+        var ang = PI/4;
+
+        function setup() {
+            createCanvas(500, 500);
+        
+            //creating a slider that ranges from 0 to 2Pi(a full circle)
+            //with initial value set to pi/4 that is 45 degrees
+            slider = createSlider(0, TWO_PI,PI/4,0.01);
+        }
+        
+        function draw() {
+            background(48,25,52);
+            ang = slider.value();
+            var len = 100;
+            stroke(255);
+            translate(width * 0.5,height);
+            branch(len);
+        }
+        
+        function branch(len) {
+            line(0, 0, 0, - len);
+            translate(0,-len);
+            if(len > 4){ // if(len>80)
+                push();
+                rotate(ang);
+                branch(len * 0.7);
+                pop();
+                push();
+                rotate(-ang);
+                branch(len * 0.7);
+                pop();
+            }
+        }
+      </code></pre>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-markup.min.js"></script>
+  <script src="ss.js"></script>
+  </body>
+</html>
